@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import java.util.concurrent.ExecutionException
 
 object ImageUtils {
+    var canvasColor= Color.WHITE
+
     fun resizeImage(
         imageUrl: String,
         imageView: ImageView,
@@ -49,7 +51,7 @@ object ImageUtils {
                     val resizedBitmap =
                         Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888)
                     val canvas = Canvas(resizedBitmap)
-                    canvas.drawColor(Color.WHITE)
+                    canvas.drawColor(canvasColor)
 
                     val x: Float = ((canvasWidth - originalWidth) / 2).toFloat()
                     val y: Float = ((canvasHeight - originalHeight) / 2).toFloat()
@@ -114,7 +116,7 @@ object ImageUtils {
                     val resizedBitmap =
                         Bitmap.createBitmap(canvasSize, canvasSize, Bitmap.Config.ARGB_8888)
                     val canvas = Canvas(resizedBitmap)
-                    canvas.drawColor(Color.WHITE)
+                    canvas.drawColor(canvasColor)
                     val x = (canvasSize - originalWidth) / 2
                     val y = (canvasSize - originalHeight) / 2
                     canvas.drawBitmap(originalBitmap, x.toFloat(), y.toFloat(), null)

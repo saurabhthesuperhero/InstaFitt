@@ -1,17 +1,24 @@
 package com.developersmarket.instafitt
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.developersmarket.instafitt.adapter.ItemAdapter
 import com.developersmarket.instafitt.databinding.ActivityEditBinding
 import com.developersmarket.instafitt.model.ItemEditAction
 import com.developersmarket.instafitt.utils.ImageUtils
+import com.github.dhaval2404.colorpicker.ColorPickerDialog
+import com.github.dhaval2404.colorpicker.listener.ColorListener
+import com.github.dhaval2404.colorpicker.model.ColorShape
 
 class EditActivity : AppCompatActivity() {
     private var itemEditActionArrayList = arrayListOf<ItemEditAction>()
     private lateinit var binding: ActivityEditBinding
     private lateinit var imageUri: Uri
+    private val DefaultColor = intArrayOf(Color.WHITE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditBinding.inflate(layoutInflater)
@@ -20,7 +27,45 @@ class EditActivity : AppCompatActivity() {
         binding.ivMainImage.setImageURI(imageUri)
 
         initData()
+        initListener()
         initRecycler()
+    }
+
+    private fun initListener() {
+        binding.llBackground.setOnClickListener(View.OnClickListener {
+            binding.llMenuAspectRatio.setVisibility(View.GONE)
+            binding.llMenuBackground.setVisibility(View.VISIBLE)
+        })
+        binding.llRatio.setOnClickListener(View.OnClickListener {
+            binding.llMenuAspectRatio.setVisibility(View.VISIBLE)
+            binding.llMenuBackground.setVisibility(View.GONE)
+        })
+
+        binding.btOriginal.setOnClickListener(View.OnClickListener {
+            Glide.with(this)
+                .load(imageUri)
+                .into(binding.ivMainImage)
+        })
+
+        binding.llColorPicker.setOnClickListener(View.OnClickListener {
+            ColorPickerDialog.Builder(this@EditActivity)
+                .setTitle("Pick Color")
+                .setColorShape(ColorShape.SQAURE)
+                .setDefaultColor(DefaultColor[0])
+                .setColorListener(object : ColorListener {
+                    override fun onColorSelected(color: Int, colorHex: String) {
+                        // Handle Color Selection
+                        ImageUtils.canvasColor=color
+                        ImageUtils.resizeSquareImage(imageUri.toString(), binding.ivMainImage, this@EditActivity, 1f)
+                    }
+                })
+                .show()
+        })
+
+        binding.btTransparentBack.setOnClickListener(View.OnClickListener {
+            ImageUtils.canvasColor=Color.TRANSPARENT
+            ImageUtils.resizeSquareImage(imageUri.toString(), binding.ivMainImage,this@EditActivity, 1f)
+        })
     }
 
 
