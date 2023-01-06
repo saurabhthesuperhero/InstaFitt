@@ -1,17 +1,15 @@
 package com.developersmarket.instafitt.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Rect
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
 import android.os.Environment
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.FileProvider
-import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
 import com.developersmarket.instafitt.BuildConfig
 import java.io.File
@@ -21,36 +19,41 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 
 object ImageUtils {
-    var canvasColor= Color.WHITE
-    var backBitmap: Bitmap? =null
-    val app_name="InstaFitt"
+    var canvasColor = Color.WHITE
+    var backBitmap: Bitmap? = null
+    val app_name = "InstaFitt"
 
     //COLOR, IMAGE
-    var mode= "COLOR"
+    var mode = "COLOR"
     fun resizeImage(
         imageUrl: String,
         imageBackUrl: String,
         imageView: ImageView,
         context: Context,
-        targetAspectRatio: Float
+        targetAspectRatio: Float,
+        activity: Activity
     ) {
         class ResizeImageTask : AsyncTask<String, Void, Bitmap>() {
             override fun doInBackground(vararg imageUrls: String): Bitmap? {
                 val imageUrl = imageUrls[0]
 
+//                var loadingDialog: LoadingDialog? = null
+//                loadingDialog = LoadingDialog(activity);
+
+//                loadingDialog?.showLoading()
                 try {
                     val originalBitmap = Glide.with(context)
                         .asBitmap()
                         .load(imageUrl)
                         .submit()
                         .get()
-                    backBitmap = if (imageBackUrl != "" && mode.equals("IMAGE")){
+                    backBitmap = if (imageBackUrl != "" && mode.equals("IMAGE")) {
                         Glide.with(context)
                             .asBitmap()
                             .load(imageBackUrl)
                             .submit()
                             .get()
-                    }else{
+                    } else {
                         null
                     }
                     val originalWidth = originalBitmap.width
@@ -74,7 +77,14 @@ object ImageUtils {
                     val resizedBitmap =
                         Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888)
                     val canvas = Canvas(resizedBitmap)
-                    canvas.drawColor(canvasColor)
+                    if (canvasColor.equals(Color.TRANSPARENT)) {
+                        val paint = Paint()
+                        paint.setAlpha(0) // Set the alpha value to 0 (fully transparent)
+                        canvas.drawColor(paint.color, PorterDuff.Mode.CLEAR) // Draw the transparent background
+                    } else {
+                        canvas.drawColor(canvasColor)
+                    }
+
 
                     val x: Float = ((canvasWidth - originalWidth) / 2).toFloat()
                     val y: Float = ((canvasHeight - originalHeight) / 2).toFloat()
@@ -87,6 +97,8 @@ object ImageUtils {
                     }
 
                     canvas.drawBitmap(originalBitmap, x, y, null)
+//                    loadingDialog?.hideLoading()
+
                     return resizedBitmap
                 } catch (e: ExecutionException) {
                     e.printStackTrace()
@@ -130,13 +142,13 @@ object ImageUtils {
                         .submit()
                         .get()
 
-                    backBitmap = if (imageBackUrl != "" && mode == "IMAGE"){
+                    backBitmap = if (imageBackUrl != "" && mode == "IMAGE") {
                         Glide.with(context)
                             .asBitmap()
                             .load(imageBackUrl)
                             .submit()
                             .get()
-                    }else{
+                    } else {
                         null
                     }
                     val originalWidth = originalBitmap.width
@@ -158,7 +170,13 @@ object ImageUtils {
                     val resizedBitmap =
                         Bitmap.createBitmap(canvasSize, canvasSize, Bitmap.Config.ARGB_8888)
                     val canvas = Canvas(resizedBitmap)
-                    canvas.drawColor(canvasColor)
+                    if (canvasColor.equals(Color.TRANSPARENT)) {
+                        val paint = Paint()
+                        paint.setAlpha(0) // Set the alpha value to 0 (fully transparent)
+                        canvas.drawColor(paint.color, PorterDuff.Mode.CLEAR) // Draw the transparent background
+                    } else {
+                        canvas.drawColor(canvasColor)
+                    }
                     val x = (canvasSize - originalWidth) / 2
                     val y = (canvasSize - originalHeight) / 2
                     if (backBitmap != null) {
@@ -198,7 +216,8 @@ object ImageUtils {
         val bitmap = drawable.bitmap
 
         // get the SD card's root directory
-        val path_download = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val path_download =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val fileName = UUID.randomUUID().toString() + ".png"
         // create a directory for the app
         val appDir = File(path_download, app_name)
@@ -215,8 +234,12 @@ object ImageUtils {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             stream.flush()
             stream.close()
+            Toast.makeText(context, "Download Successfull", Toast.LENGTH_SHORT).show();
         } catch (e: IOException) {
             e.printStackTrace()
+            Toast.makeText(context, "Unsuccessfull: " + e.localizedMessage, Toast.LENGTH_SHORT)
+                .show();
+
         }
     }
 
@@ -244,7 +267,8 @@ object ImageUtils {
         // create the share intent and start the activity
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/png"
-        val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID  + ".provider", file)
+        val uri =
+            FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         context.startActivity(Intent.createChooser(intent, "Share image"))
     }

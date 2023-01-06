@@ -54,8 +54,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
-    //colro picker
+    //color/image picker
     implementation 'com.github.Dhaval2404:ColorPicker:2.3'
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
+    // Lottie dependency
+    def lottieVersion = "5.0.3"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }

@@ -21,6 +21,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 class EditActivity : AppCompatActivity() {
     private var itemEditActionArrayList = arrayListOf<ItemEditAction>()
     private lateinit var binding: ActivityEditBinding
+
     var imageBackUrl = ""
     private lateinit var imageUri: Uri
     private val DefaultColor = intArrayOf(Color.WHITE)
@@ -57,9 +58,9 @@ class EditActivity : AppCompatActivity() {
         })
 
         binding.btTransparentBack.setOnClickListener(View.OnClickListener {
-            ImageUtils.canvasColor=Color.TRANSPARENT
-            ImageUtils.backBitmap=null
-            ImageUtils.mode="COLOR"
+            ImageUtils.canvasColor = Color.TRANSPARENT
+            ImageUtils.backBitmap = null
+            ImageUtils.mode = "COLOR"
             ImageUtils.resizeSquareImage(
                 imageUri.toString(),
                 imageBackUrl,
@@ -89,7 +90,7 @@ class EditActivity : AppCompatActivity() {
                         ImageUtils.backBitmap = null
                         ImageUtils.mode = "COLOR"
                         ImageUtils.resizeSquareImage(
-                            imageUri.toString(),                        imageBackUrl,
+                            imageUri.toString(), imageBackUrl,
 
                             binding.ivMainImage,
                             this@EditActivity,
@@ -105,7 +106,7 @@ class EditActivity : AppCompatActivity() {
         binding.btTransparentBack.setOnClickListener(View.OnClickListener {
             ImageUtils.canvasColor = Color.TRANSPARENT
             ImageUtils.resizeSquareImage(
-                imageUri.toString(),                        imageBackUrl,
+                imageUri.toString(), imageBackUrl,
 
                 binding.ivMainImage,
                 this@EditActivity,
@@ -156,7 +157,8 @@ class EditActivity : AppCompatActivity() {
                             imageBackUrl,
                             binding.ivMainImage,
                             this@EditActivity,
-                            targetAspectRatio
+                            targetAspectRatio,
+                            this@EditActivity
                         )
                     }
                 }
