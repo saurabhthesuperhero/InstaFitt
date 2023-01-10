@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.developersmarket.instafitt.adapter.ItemAdapter
 import com.developersmarket.instafitt.databinding.ActivityEditBinding
 import com.developersmarket.instafitt.model.ItemEditAction
+import com.developersmarket.instafitt.utils.ImageNonStaticUtils
 import com.developersmarket.instafitt.utils.ImageUtils
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.listener.ColorListener
@@ -116,16 +117,28 @@ class EditActivity : AppCompatActivity() {
 
 
         binding.llDownload.setOnClickListener(View.OnClickListener {
-            ImageUtils.downloadImageFromImageView(
-                this@EditActivity,
-                binding.ivMainImage
-            )
+
+//                ImageUtils.INSTANCE.downloadImageFromImageView(EditActivity.this,imageViewMain);
+            val imageNonStaticUtils = ImageNonStaticUtils()
+            imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
+                binding.frameLayout)
+//            ImageUtils.downloadImageFromImageView(
+//                this@EditActivity,
+//                binding.ivMainImage
+//            )
         })
 
         binding.llShare.setOnClickListener(View.OnClickListener {
             ImageUtils.shareImage(
                 this@EditActivity,
                 binding.ivMainImage
+            )
+        })
+
+        binding.llText.setOnClickListener(View.OnClickListener {
+            ImageUtils.opendialogtext(
+                this@EditActivity,
+                binding.frameLayout
             )
         })
     }

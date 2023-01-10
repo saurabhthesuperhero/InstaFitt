@@ -1,17 +1,22 @@
 package com.developersmarket.instafitt.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
 import android.os.Environment
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.developersmarket.instafitt.BuildConfig
+import com.developersmarket.instafitt.R
+import com.developersmarket.instafitt.stickerview.StickerTextView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -272,6 +277,38 @@ object ImageUtils {
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         context.startActivity(Intent.createChooser(intent, "Share image"))
     }
+
+    fun opendialogtext(activity: Activity, frameLayout: FrameLayout) {
+
+        var dialog = Dialog(activity)
+//        dialog.setContentView(R.layout.textdialog_layout)
+        val inflater = LayoutInflater.from(activity)
+        val subview = inflater.inflate(R.layout.textdialog_layout, null)
+
+        val editText = subview.findViewById(R.id.dialogEditText) as EditText
+        val btn_done = subview.findViewById(R.id.btn_done) as Button
+
+        var alert: AlertDialog.Builder = AlertDialog.Builder(activity)
+        alert.setView(subview)
+        alert.setCancelable(true)
+
+
+        btn_done.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                var tv_sticker = StickerTextView(activity)
+
+                tv_sticker.tv_main!!.setText(editText.text.toString())
+                tv_sticker.tv_main!!.setTypeface(editText.typeface)
+                tv_sticker.tv_main!!.setTextColor(editText.textColors)
+                frameLayout.addView(tv_sticker)
+                dialog.dismiss()
+            }
+        })
+
+        dialog = alert.create()
+        dialog.show()
+    }
+
 
 
 }
