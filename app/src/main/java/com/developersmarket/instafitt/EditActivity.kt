@@ -36,7 +36,7 @@ class EditActivity : AppCompatActivity() {
         setContentView(binding.root)
         imageUri = intent.getParcelableExtra(IMAGE_URI_EXTRA) ?: Uri.EMPTY
         binding.ivMainImage.setImageURI(imageUri)
-        AdLoader.ads.showInterstitial(this)
+        AdLoader.loadInterstitialAd(getString(R.string.Admob_adUnitId))
 
         initData()
         initListener()
@@ -77,6 +77,7 @@ class EditActivity : AppCompatActivity() {
             )
         })
         binding.btOriginal.setOnClickListener(View.OnClickListener {
+            binding.ivMainImage.reset()
             Glide.with(this)
                 .load(imageUri)
                 .into(binding.ivMainImage)
@@ -123,6 +124,7 @@ class EditActivity : AppCompatActivity() {
 
 
         binding.llDownload.setOnClickListener(View.OnClickListener {
+            binding.ivMainImage.reset()
 
 //                ImageUtils.INSTANCE.downloadImageFromImageView(EditActivity.this,imageViewMain);
             HideStickers()

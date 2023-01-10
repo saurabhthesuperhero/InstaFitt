@@ -33,7 +33,7 @@ object ImageUtils {
     fun resizeImage(
         imageUrl: String,
         imageBackUrl: String,
-        imageView: ImageView,
+        imageView: com.developersmarket.instafitt.utils.ZoomableImageView,
         context: Context,
         targetAspectRatio: Float,
         activity: Activity
@@ -41,6 +41,7 @@ object ImageUtils {
         class ResizeImageTask : AsyncTask<String, Void, Bitmap>() {
             override fun doInBackground(vararg imageUrls: String): Bitmap? {
                 val imageUrl = imageUrls[0]
+                imageView.reset()
 
 //                var loadingDialog: LoadingDialog? = null
 //                loadingDialog = LoadingDialog(activity);
@@ -116,7 +117,7 @@ object ImageUtils {
 
             override fun onPostExecute(resizedBitmap: Bitmap?) {
                 if (resizedBitmap != null) {
-                    // Load the resized Bitmap into the ImageView using Glide
+                    // Load the resized Bitmap into the com.developersmarket.instafitt.utils.ZoomableImageView using Glide
                     Glide.with(context)
                         .load(resizedBitmap)
                         .into(imageView)
@@ -132,13 +133,14 @@ object ImageUtils {
     fun resizeSquareImage(
         imageUrl: String,
         imageBackUrl: String,
-        imageView: ImageView,
+        imageView: com.developersmarket.instafitt.utils.ZoomableImageView,
         context: Context,
         targetAspectRatio: Float
     ) {
         class ResizeImageTask : AsyncTask<String, Void, Bitmap>() {
             override fun doInBackground(vararg imageUrls: String): Bitmap? {
                 val imageUrl = imageUrls[0]
+                imageView.reset()
 
                 try {
                     val originalBitmap = Glide.with(context)

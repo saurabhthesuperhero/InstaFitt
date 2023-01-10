@@ -30,8 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        AdLoader.ads.loadfullAdAdmob(this)
-
+        AdLoader.initializeAds(this)
         requestPermission()
 
         binding.btSelectImage.setOnClickListener {
