@@ -152,7 +152,7 @@ class EditActivity : AppCompatActivity() {
             )
         })
 
-        binding.frameLayout.setOnTouchListener(object : View.OnTouchListener {
+        binding.ivMainImage.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
                 if (event!!.action == MotionEvent.ACTION_DOWN) {
