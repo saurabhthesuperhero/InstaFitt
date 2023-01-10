@@ -154,12 +154,16 @@ class EditActivity : AppCompatActivity() {
 
         binding.ivMainImage.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-
-                if (event!!.action == MotionEvent.ACTION_DOWN) {
-                    HideStickers()
+                if (event?.pointerCount == 2) {
+                    binding.ivMainImage.scaleDetector.onTouchEvent(event)
                 }
-                return true
+                if(event?.pointerCount == 1 && event.action == MotionEvent.ACTION_DOWN) {
+                    HideStickers();
+                }
+                return true;
             }
+
+
         })
     }
 
