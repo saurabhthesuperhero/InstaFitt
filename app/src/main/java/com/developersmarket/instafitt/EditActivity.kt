@@ -15,6 +15,7 @@ import com.developersmarket.instafitt.adapter.ItemAdapter
 import com.developersmarket.instafitt.databinding.ActivityEditBinding
 import com.developersmarket.instafitt.model.ItemEditAction
 import com.developersmarket.instafitt.stickerview.StickerView
+import com.developersmarket.instafitt.utils.AdLoader
 import com.developersmarket.instafitt.utils.ImageNonStaticUtils
 import com.developersmarket.instafitt.utils.ImageUtils
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
@@ -35,6 +36,7 @@ class EditActivity : AppCompatActivity() {
         setContentView(binding.root)
         imageUri = intent.getParcelableExtra(IMAGE_URI_EXTRA) ?: Uri.EMPTY
         binding.ivMainImage.setImageURI(imageUri)
+        AdLoader.ads.showInterstitial(this)
 
         initData()
         initListener()

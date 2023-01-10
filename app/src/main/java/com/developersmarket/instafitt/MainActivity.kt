@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.developersmarket.instafitt.databinding.ActivityMainBinding
+import com.developersmarket.instafitt.utils.AdLoader
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AdLoader.ads.loadfullAdAdmob(this)
+
         requestPermission()
 
         binding.btSelectImage.setOnClickListener {

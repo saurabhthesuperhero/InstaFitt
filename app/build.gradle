@@ -61,4 +61,8 @@ dependencies {
     // Lottie dependency
     def lottieVersion = "5.0.3"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //ads
+    implementation 'com.google.android.gms:play-services-ads:19.2.0'
+
 }

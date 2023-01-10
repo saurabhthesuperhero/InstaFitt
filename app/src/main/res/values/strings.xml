@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">InstaFitt</string>
+
+    <!--TODO : Replace  Admob App ID here -->
+    <string name="Admob_AppID">ca-app-pub-9140571319805972~8545602952</string>
+
+    <!--TODO : Replace  Admob UNIT ID here -->
+    <string name="Admob_adUnitId">ca-app-pub-9140571319805972/6615361309</string>
 </resources>
