@@ -250,10 +250,13 @@ object ImageUtils {
         }
     }
 
-    fun shareImage(context: Context, imageView: ImageView) {
-        // create a bitmap from the ImageView's drawable
-        val drawable = imageView.drawable as BitmapDrawable
-        val bitmap = drawable.bitmap
+    fun shareImage(context: Context, imageView: ImageView, frameLayout: FrameLayout) {
+        // create a bitmap from the ImageView and frameLayout
+        val bitmap = Bitmap.createBitmap(imageView.width, imageView.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        // Draw the ImageView and frameLayout onto the canvas
+        imageView.draw(canvas)
+        frameLayout.draw(canvas)
 
         // generate a random file name
         val fileName = UUID.randomUUID().toString() + ".png"

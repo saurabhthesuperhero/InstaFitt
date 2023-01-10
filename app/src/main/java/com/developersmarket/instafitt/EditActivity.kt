@@ -125,8 +125,6 @@ class EditActivity : AppCompatActivity() {
 
         binding.llDownload.setOnClickListener(View.OnClickListener {
             binding.ivMainImage.reset()
-
-//                ImageUtils.INSTANCE.downloadImageFromImageView(EditActivity.this,imageViewMain);
             HideStickers()
 
             val imageNonStaticUtils = ImageNonStaticUtils()
@@ -139,9 +137,11 @@ class EditActivity : AppCompatActivity() {
         })
 
         binding.llShare.setOnClickListener(View.OnClickListener {
+            binding.ivMainImage.reset()
+            HideStickers()
             ImageUtils.shareImage(
                 this@EditActivity,
-                binding.ivMainImage
+                binding.ivMainImage,binding.frameLayout
             )
         })
 
