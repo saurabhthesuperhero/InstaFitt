@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AdLoader.initializeAds(this)
+        AdLoader.loadInterstitialAd(getString(R.string.Admob_adUnitId))
+
         requestPermission()
 
         binding.btSelectImage.setOnClickListener {

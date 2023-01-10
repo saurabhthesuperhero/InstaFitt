@@ -36,7 +36,7 @@ class EditActivity : AppCompatActivity() {
         setContentView(binding.root)
         imageUri = intent.getParcelableExtra(IMAGE_URI_EXTRA) ?: Uri.EMPTY
         binding.ivMainImage.setImageURI(imageUri)
-        AdLoader.loadInterstitialAd(getString(R.string.Admob_adUnitId))
+        AdLoader.showInterstitialAd()
 
         initData()
         initListener()
