@@ -1,10 +1,12 @@
 package com.developersmarket.instafitt
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.developersmarket.instafitt.adapter.ItemAdapter
 import com.developersmarket.instafitt.databinding.ActivityEditBinding
 import com.developersmarket.instafitt.model.ItemEditAction
+import com.developersmarket.instafitt.stickerview.StickerView
 import com.developersmarket.instafitt.utils.ImageNonStaticUtils
 import com.developersmarket.instafitt.utils.ImageUtils
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
@@ -38,6 +41,7 @@ class EditActivity : AppCompatActivity() {
         initRecycler()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initListener() {
         binding.llBackground.setOnClickListener(View.OnClickListener {
             binding.llMenuAspectRatio.setVisibility(View.GONE)
@@ -119,6 +123,8 @@ class EditActivity : AppCompatActivity() {
         binding.llDownload.setOnClickListener(View.OnClickListener {
 
 //                ImageUtils.INSTANCE.downloadImageFromImageView(EditActivity.this,imageViewMain);
+            HideStickers()
+
             val imageNonStaticUtils = ImageNonStaticUtils()
             imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
                 binding.frameLayout)
@@ -140,6 +146,16 @@ class EditActivity : AppCompatActivity() {
                 this@EditActivity,
                 binding.frameLayout
             )
+        })
+
+        binding.frameLayout.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event!!.action == MotionEvent.ACTION_DOWN) {
+                    HideStickers()
+                }
+                return true
+            }
         })
     }
 
@@ -210,6 +226,20 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
+    fun HideStickers() {
+        var fm = binding.frameLayout
+        var childcount: Int = binding.frameLayout.childCount
+
+        if (childcount != 0) {
+            for (i in 0 until childcount) {
+                var v: View = fm.getChildAt(i)
+
+                if (v is StickerView) {
+                    v.setControlItemsHidden(true)
+                }
+            }
+        }
+    }
     companion object {
         const val IMAGE_URI_EXTRA = "image_uri_extra"
     }
