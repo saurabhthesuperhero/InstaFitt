@@ -148,10 +148,24 @@ class EditActivity : AppCompatActivity() {
         binding.llShare.setOnClickListener(View.OnClickListener {
             binding.ivMainImage.reset()
             HideStickers()
-            ImageUtils.shareImage(
-                this@EditActivity,
-                binding.ivMainImage,binding.frameLayout
-            )
+
+            AdLoader.showRewardedInterstitialAd(object: AdLoader.RewardListener{
+                override fun onRewardEarned() {
+                    ImageUtils.shareImage(
+                        this@EditActivity,
+                        binding.ivMainImage,binding.frameLayout
+                    )
+                }
+
+                override fun onError() {
+                    ImageUtils.shareImage(
+                        this@EditActivity,
+                        binding.ivMainImage,binding.frameLayout
+                    )
+                }
+
+            })
+
         })
 
         binding.llText.setOnClickListener(View.OnClickListener {
