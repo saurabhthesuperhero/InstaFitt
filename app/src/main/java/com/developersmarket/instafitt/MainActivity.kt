@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AdLoader.initializeAds(this)
-        AdLoader.loadInterstitialAd(getString(R.string.Admob_adUnitId))
+        AdLoader.loadInterstitialAd(getString(R.string.Admob_adUnitId_Interstitial))
+        AdLoader.loadRewardedInterstitialAd(getString(R.string.Admob_adUnitId_Interstitial_Rewarded))
 
         requestPermission()
 

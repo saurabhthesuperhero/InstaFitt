@@ -128,12 +128,21 @@ class EditActivity : AppCompatActivity() {
             HideStickers()
 
             val imageNonStaticUtils = ImageNonStaticUtils()
-            imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
-                binding.frameLayout)
-//            ImageUtils.downloadImageFromImageView(
-//                this@EditActivity,
-//                binding.ivMainImage
-//            )
+
+            AdLoader.showRewardedInterstitialAd(object: AdLoader.RewardListener{
+                override fun onRewardEarned() {
+                    Toast.makeText(this@EditActivity, "Downloading", Toast.LENGTH_SHORT).show();
+                    imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
+                        binding.frameLayout)
+                }
+
+                override fun onError() {
+                    Toast.makeText(this@EditActivity, "Downloading", Toast.LENGTH_SHORT).show();
+                    imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
+                        binding.frameLayout)
+                }
+
+            })
         })
 
         binding.llShare.setOnClickListener(View.OnClickListener {

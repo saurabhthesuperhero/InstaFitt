@@ -90,7 +90,7 @@ class ImageNonStaticUtils {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
         stream.flush()
         stream.close()
-        Toast.makeText(context, "Download Successfull", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Download Successfull", Toast.LENGTH_LONG).show();
     }
 
 }
