@@ -3,6 +3,7 @@ package com.developersmarket.instafitt.adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,6 +55,7 @@ class ViewPagerAdapter(context: Context, `object`: ArrayList<ImageModel>, loc: I
         val itemView: View = mLayoutInflater.inflate(R.layout.item_only_image, container, false)
         // referencing the image view from the item.xml file
         val btn_edit: Button = itemView.findViewById(R.id.btn_edit) as Button
+        val btn_share: Button = itemView.findViewById(R.id.btn_share) as Button
         val imageView: ImageView = itemView.findViewById(R.id.imageViewMain) as ImageView
         val imageUrl: String? = objectList[position].imgUrl
         Glide.with(context)
@@ -65,6 +67,15 @@ class ViewPagerAdapter(context: Context, `object`: ArrayList<ImageModel>, loc: I
             intent.putExtra(EditActivity.IMAGE_URI_EXTRA, imageUrl)
             Log.d(TAG, "instantiateItem() called"+imageUrl)
             context.startActivity(intent)
+        }
+
+        btn_share.setOnClickListener {
+            //imageUrl is type of String of URI
+            val imageUri = Uri.parse(imageUrl)
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
+            shareIntent.type = "image/*"
+            context.startActivity(Intent.createChooser(shareIntent, "Share image using"))
         }
         // Adding the View
         Objects.requireNonNull(container).addView(itemView)

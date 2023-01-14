@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         fun rvScrolltoPosition(pos: Int) {
             binding.rvList.scrollToPosition(pos)
         }
+        val app_name = "InstaFitt"
 
         private const val TAG = "MainActivity"
 
@@ -134,7 +135,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getImageFilePaths(): List<String?>? {
-        val directory = File(Environment.getExternalStorageDirectory(), "Download/InstaFitt")
+//        val directory = File(Environment.getExternalStorageDirectory(), "Download/InstaFitt")
+        val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), app_name)
         val files: Array<out File>? = directory.listFiles()
         val imageFilePaths: MutableList<String?> = ArrayList()
         if (files == null) return imageFilePaths
