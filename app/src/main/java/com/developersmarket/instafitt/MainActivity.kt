@@ -23,11 +23,15 @@ import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.sanojpunchihewa.updatemanager.UpdateManager
+import com.sanojpunchihewa.updatemanager.UpdateManagerConstant
 
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_WRITE_STORAGE = 112
     private var mAdapter: ImageAdapter? = null
+    lateinit var mUpdateManager: UpdateManager
+
     private val selectImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { result: Uri? ->
             if (result != null) {
@@ -53,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         binding.btSelectImage.setOnClickListener {
             selectImageLauncher.launch("image/*")
         }
+        mUpdateManager = UpdateManager.Builder(this).mode(UpdateManagerConstant.IMMEDIATE);
+        mUpdateManager.start();
     }
 
     private fun checkPermission(): Boolean {
@@ -133,7 +139,7 @@ class MainActivity : AppCompatActivity() {
         val imageFilePaths: MutableList<String?> = ArrayList()
         if (files == null) return imageFilePaths
         for (file in files) {
-            if (file.name.endsWith(".jpg") || file.name.endsWith(".png")) {
+            if (file.name.endsWith(".jpg") || file.name.endsWith(".png") || file.name.endsWith(".jpeg")) {
                 imageFilePaths.add(file.absolutePath)
             }
         }

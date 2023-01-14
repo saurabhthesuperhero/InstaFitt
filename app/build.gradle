@@ -68,4 +68,8 @@ dependencies {
     //splash
     implementation "androidx.core:core-splashscreen:1.0.0"
 
+    //update
+    implementation 'com.github.SanojPunchihewa:InAppUpdater:1.0.5'
+
+
 }
