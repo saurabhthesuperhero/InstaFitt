@@ -8,7 +8,7 @@
     <string name="Admob_adUnitId_Interstitial">ca-app-pub-9140571319805972/8924269373</string>
     <string name="Admob_adUnitId_Interstitial_Rewarded">ca-app-pub-9140571319805972/9809975639</string>
 
-<!--    dummy ad units-->
-<!--    <string name="Admob_adUnitId_Interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
-<!--    <string name="Admob_adUnitId_Interstitial_Rewarded">ca-app-pub-3940256099942544/5224354917</string>-->
+    <!--    dummy ad units-->
+    <!--    <string name="Admob_adUnitId_Interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
+    <!--    <string name="Admob_adUnitId_Interstitial_Rewarded">ca-app-pub-3940256099942544/5224354917</string>-->
 </resources>

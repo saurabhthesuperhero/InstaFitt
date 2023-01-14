@@ -35,6 +35,9 @@ class EditActivity : AppCompatActivity() {
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
         imageUri = intent.getParcelableExtra(IMAGE_URI_EXTRA) ?: Uri.EMPTY
+        if (imageUri == Uri.EMPTY) {
+            imageUri = (Uri.parse(intent.getStringExtra(IMAGE_URI_EXTRA)) ?: Uri.EMPTY)
+        }
         binding.ivMainImage.setImageURI(imageUri)
         AdLoader.showInterstitialAd()
 
@@ -129,17 +132,21 @@ class EditActivity : AppCompatActivity() {
 
             val imageNonStaticUtils = ImageNonStaticUtils()
 
-            AdLoader.showRewardedInterstitialAd(object: AdLoader.RewardListener{
+            AdLoader.showRewardedInterstitialAd(object : AdLoader.RewardListener {
                 override fun onRewardEarned() {
                     Toast.makeText(this@EditActivity, "Downloading", Toast.LENGTH_SHORT).show();
-                    imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
-                        binding.frameLayout)
+                    imageNonStaticUtils.saveImage(
+                        this@EditActivity, binding.ivMainImage,
+                        binding.frameLayout
+                    )
                 }
 
                 override fun onError() {
                     Toast.makeText(this@EditActivity, "Downloading", Toast.LENGTH_SHORT).show();
-                    imageNonStaticUtils.saveImage(this@EditActivity,binding.ivMainImage,
-                        binding.frameLayout)
+                    imageNonStaticUtils.saveImage(
+                        this@EditActivity, binding.ivMainImage,
+                        binding.frameLayout
+                    )
                 }
 
             })
@@ -149,18 +156,18 @@ class EditActivity : AppCompatActivity() {
             binding.ivMainImage.reset()
             HideStickers()
 
-            AdLoader.showRewardedInterstitialAd(object: AdLoader.RewardListener{
+            AdLoader.showRewardedInterstitialAd(object : AdLoader.RewardListener {
                 override fun onRewardEarned() {
                     ImageUtils.shareImage(
                         this@EditActivity,
-                        binding.ivMainImage,binding.frameLayout
+                        binding.ivMainImage, binding.frameLayout
                     )
                 }
 
                 override fun onError() {
                     ImageUtils.shareImage(
                         this@EditActivity,
-                        binding.ivMainImage,binding.frameLayout
+                        binding.ivMainImage, binding.frameLayout
                     )
                 }
 
@@ -180,7 +187,7 @@ class EditActivity : AppCompatActivity() {
                 if (event?.pointerCount == 2) {
                     binding.ivMainImage.scaleDetector.onTouchEvent(event)
                 }
-                if(event?.pointerCount == 1 && event.action == MotionEvent.ACTION_DOWN) {
+                if (event?.pointerCount == 1 && event.action == MotionEvent.ACTION_DOWN) {
                     HideStickers();
                 }
                 return true;
@@ -224,6 +231,7 @@ class EditActivity : AppCompatActivity() {
                 }
 
             })
+
         binding.rvList.adapter = adapter
     }
 
@@ -271,6 +279,7 @@ class EditActivity : AppCompatActivity() {
             }
         }
     }
+
     companion object {
         const val IMAGE_URI_EXTRA = "image_uri_extra"
     }
