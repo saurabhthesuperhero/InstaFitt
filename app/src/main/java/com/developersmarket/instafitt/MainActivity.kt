@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -21,6 +22,7 @@ import java.io.File
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -82,9 +86,17 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         // Retrieve the list of image file paths
+
         val imageFilePaths = getImageFilePaths()
         val imageModels = mutableListOf<ImageModel>()
 
+        if (imageFilePaths != null && imageFilePaths.isNotEmpty()) {
+            binding.rvList.visibility = View.VISIBLE
+            binding.laEmpty.visibility = View.GONE
+        } else {
+            binding.rvList.visibility = View.GONE
+            binding.laEmpty.visibility = View.VISIBLE
+        }
         if (imageFilePaths != null) {
             for (filePath in imageFilePaths) {
                 val imageModel = ImageModel()
@@ -93,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Collections.reverse(imageFilePaths);
+//        Collections.reverse(imageFilePaths);
         mAdapter =
             ImageAdapter(imageFilePaths as List<String>, object : ImageAdapter.OnClickListener {
                 override fun onRowClick(position: Int) {
@@ -117,12 +129,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun getImageFilePaths(): List<String?>? {
         val directory = File(Environment.getExternalStorageDirectory(), "Download/InstaFitt")
-        val files: Array<File> = directory.listFiles()
+        val files: Array<out File>? = directory.listFiles()
         val imageFilePaths: MutableList<String?> = ArrayList()
         if (files == null) return imageFilePaths
         for (file in files) {
-            if (file.getName().endsWith(".jpg") || file.getName().endsWith(".png")) {
-                imageFilePaths.add(file.getAbsolutePath())
+            if (file.name.endsWith(".jpg") || file.name.endsWith(".png")) {
+                imageFilePaths.add(file.absolutePath)
             }
         }
         return imageFilePaths
